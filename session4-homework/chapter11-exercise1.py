@@ -20,7 +20,7 @@ while True:
         continue
 
     try:
-        pattern = re.compile(regex)
+        pattern = re.compile(regex.strip())
     except re.error:
         print("Invalid regular expression:", regex)
         continue
@@ -33,4 +33,4 @@ while True:
     except FileNotFoundError:
         print("File cannot be opened:", DATA_FILE)
         exit()
-    print(f"mbox.txt had {count} lines that matched {regex}")
+    print(f"mbox.txt had {count} lines that matched {regex.strip()}")
