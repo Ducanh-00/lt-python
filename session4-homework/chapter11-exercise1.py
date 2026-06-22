@@ -9,27 +9,28 @@ from pathlib import Path
 
 
 DATA_FILE = Path(__file__).resolve().parent / "mbox.txt"
+while True:
+    regex = input("Enter a regular expression: ")
+    if regex == "done":
+        break
+    count = 0
 
-regex = input("Enter a regular expression: ")
-count = 0
+    if regex.strip() == "":
+        print("Invalid regular expression:", regex)
+        continue
 
-if regex.strip() == "":
-    print("Invalid regular expression:", regex)
-    exit()
+    try:
+        pattern = re.compile(regex)
+    except re.error:
+        print("Invalid regular expression:", regex)
+        continue
 
-try:
-    pattern = re.compile(regex)
-except re.error:
-    print("Invalid regular expression:", regex)
-    exit()
-
-try:
-    with DATA_FILE.open("r", encoding="utf-8") as fhand:
-        for line in fhand:
-            if pattern.search(line):
-                count += 1
-except FileNotFoundError:
-    print("File cannot be opened:", DATA_FILE)
-    exit()
-
-print(f"mbox.txt had {count} lines that matched {regex}")
+    try:
+        with DATA_FILE.open("r", encoding="utf-8") as fhand:
+            for line in fhand:
+                if pattern.search(line):
+                    count += 1
+    except FileNotFoundError:
+        print("File cannot be opened:", DATA_FILE)
+        exit()
+    print(f"mbox.txt had {count} lines that matched {regex}")
